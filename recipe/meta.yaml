@@ -1,7 +1,5 @@
 {% set name = "NearPy" %}
 {% set version = "1.0.0" %}
-{% set hash_type = "sha256" %}
-{% set hash_value = "320148ac61bc29b342efa235c8cccbdebf2f35d456e29d9b30bb7baec57b0b0c" %}
 
 package:
   name: '{{ name|lower }}'
@@ -11,27 +9,29 @@ source:
   # No sdist available
   # xref: https://github.com/pixelogik/NearPy/issues/67
   url: https://github.com/pixelogik/{{ name }}/archive/{{ version }}.tar.gz
-  '{{ hash_type }}': '{{ hash_value }}'
+  'sha256': '320148ac61bc29b342efa235c8cccbdebf2f35d456e29d9b30bb7baec57b0b0c'
 
 build:
   noarch: python
-  number: 0
+  number: 1
   # script: python setup.py install  --single-version-externally-managed --record=record.txt
   script: python setup.py install  --single-version-externally-managed --record=record.txt
 
 requirements:
-  build:
-    - python
+  host:
+    - python {{ python_min }}
     - setuptools
 
   run:
-    - python
+    - python >={{ python_min }}
     - numpy
     - scipy
     - bitarray
     - future
 
 test:
+  requires:
+    - python {{ python_min }}
   imports:
     - nearpy
 
